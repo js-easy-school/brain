@@ -6,17 +6,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
   <style>
     #map {
-      width: 100vw;
-      height: 100vh;
+      height: 400px;
     }
   </style>
 </head>
 
 <body>
+  <h1>Простой навигатор для пешехода</h1>
   <div id="map"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/lrm-routing-machine.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!-- External library to make API requests -->
+
   <script>
     window.onload = function() {
       function initMap() {
@@ -40,22 +42,20 @@
               const waypoint = {
                 latLng: e.latlng
               };
-              const routeControl = L.Routing.control({
-                waypoints: [
-                  L.latLng(latitude, longitude), // Starting point
-                  L.latLng(waypoint.latLng.lat, waypoint.latLng.lng) // Clicked point
-                ],
-                routeWhileDragging: true,
-                createMarker: function(i, waypoint, n) {
-                  if (i === n - 1) {
-                    return L.marker(waypoint.latLng, {
-                      draggable: true
-                    }).bindPopup("Конечная точка маршрута");
-                  } else {
-                    return L.marker(waypoint.latLng).bindPopup("Промежуточная точка маршрута");
-                  }
+              
+              axios.get('https://api.openrouteservice.org/v2/directions/foot-walking', {
+                params: {
+                  api_key: '5b3ce3597851110001cf6248f76c6d2973f740aca07ababbc15896f5', // Replace with your OpenRouteService API key
+                  start: `${longitude},${latitude}`, // Corrected order
+                  end: `${waypoint.latLng.lng},${waypoint.latLng.lat}`, // Corrected order
                 }
-              }).addTo(map);
+              }).then(response => {
+                const route = response.data.routes[0];
+                const coords = route.geometry.coordinates.map(coord => [coord[1], coord[0]]);
+                L.Routing.line(coords).addTo(map);
+              }).catch(error => {
+                console.error('Error fetching route:', error);
+              });
             }
 
             // Event listener for clicking on the map to calculate route to clicked point
@@ -65,7 +65,7 @@
       }
 
       // Вызов функции инициализации карты
-      initMap();
+      initMap()
     };
   </script>
 </body>
