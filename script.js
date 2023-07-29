@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', function () {
             if (isNaN(timeRemaining) || timeRemaining === Infinity) {
                 document.getElementById('timeRemaining').textContent = 'Неизвестно';
             } else {
-                var hours = Math.floor(timeRemaining / 60);
+                var hours = Math.floor(timeRemaining / 3600); // изменение здесь: деление на 3600 для получения часов
                 var minutes = timeRemaining % 60;
                 document.getElementById('timeRemaining').textContent = hours + ' часов ' + minutes + ' минут';
             }
