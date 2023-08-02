@@ -210,14 +210,8 @@
             lastCard.remove();
         } else {
             const cardTexts = lastCard.querySelectorAll('.card-text');
-            if(cardTexts[0].style.display === 'none') {
-    cardTexts[0].style.display = 'block';
-    cardTexts[1].style.display = 'none';
-} else {
-    cardTexts[0].style.display = 'none';
-    cardTexts[1].style.display = 'block';
-}
-
+            cardTexts[0].classList.toggle('d-none');
+            cardTexts[1].classList.toggle('d-none');
         }
     });
 
