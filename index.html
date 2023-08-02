@@ -182,12 +182,8 @@
 // })
     function addCardToList(cardTitle, cardQuestion, cardAnswer) {
     let cardAnswerElement = '';
-    if (cardAnswer.startsWith('<') && cardAnswer.endsWith('>')) {  
-        cardAnswerElement = `<pre><code class="card-text language-js d-none">${cardAnswer}</code></pre>`;
-    } else {
-        cardAnswerElement = `<p class="card-text d-none">${cardAnswer}</p>`;
-    }
-
+    cardAnswerElement = `<pre><code class="card-text language-js d-none">${cardAnswer}</code></pre>`;
+    // cardAnswerElement = `<p class="card-text d-none">${cardAnswer}</p>`;
     const cardTemplate = `
         <div class="card mb-3">
             <div class="card-body">
