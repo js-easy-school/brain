@@ -103,16 +103,30 @@
             })
 
             function addCardToList(cardTitle, cardQuestion, cardAnswer) {
-                const cardTemplate = `
+      //           const cardTemplate = `
+      //   <div class="card mb-3">
+      //     <div class="card-body">
+      //       <h5 class="card-title">${cardTitle}</h5>
+      //       <p class="card-text">${cardQuestion}</p>
+      //       <p class="card-text d-none">${cardAnswer}</p>
+      //       <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
+      //     </div>
+      //   </div>
+      // `
+
+    const codeBlockStart = "```js";
+    const codeBlockEnd = "```";
+    const cardTemplate = `
         <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title">${cardTitle}</h5>
             <p class="card-text">${cardQuestion}</p>
-            <p class="card-text d-none">${cardAnswer}</p>
+            <pre class="card-text d-none">${codeBlockStart}\n${cardAnswer}\n${codeBlockEnd}</pre>
             <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
           </div>
         </div>
       `
+                
                 const cardList = document.getElementById('card-list')
                 cardList.insertAdjacentHTML('beforeend', cardTemplate)
                 // добавляем обработчик клика на карту
