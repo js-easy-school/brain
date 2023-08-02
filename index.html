@@ -62,130 +62,195 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 
-<script>     
-            function addCardToList(cardTitle, cardQuestion, cardAnswer) {
-                const cardTemplate = `
-            <div class="card mb-3">
-    <div class="card-body">
-    <h5 class="card-title">${cardTitle}</h5>
-    <p class="card-text">${cardQuestion}</p>
-    <p class="card-text d-none">${cardAnswer}</p>
-    </div>
-    </div>
-    `
-                const cardList = document.getElementById('card-list')
-                cardList.insertAdjacentHTML('beforeend', cardTemplate)
-                // добавляем обработчик клика на карту
-                const cards = cardList.querySelectorAll('.card')
-                const lastCard = cards[cards.length - 1]
-                lastCard.addEventListener('click', function () {
-                    const cardTexts = lastCard.querySelectorAll('.card-text')
-                    cardTexts[0].classList.toggle('d-none')
-                    cardTexts[1].classList.toggle('d-none')
-                })
-                // Очищаем форму кроме названия карты
-                const cardQuestionInput =
-                    document.getElementById('card-question')
-                cardQuestionInput.value = ''
-                const cardAnswerInput = document.getElementById('card-answer')
-                cardAnswerInput.value = ''
-            }
-            // обработчик отправки формы
-            const form = document.querySelector('form')
-            form.addEventListener('submit', function (event) {
-                event.preventDefault()
-                const cardTitleInput = document.getElementById('card-title')
-                const cardQuestionInput =
-                    document.getElementById('card-question')
-                const cardAnswerInput = document.getElementById('card-answer')
-                const cardTitle = cardTitleInput.value.trim()
-                const cardQuestion = cardQuestionInput.value.trim()
-                const cardAnswer = cardAnswerInput.value.trim()
-                if (cardTitle && cardQuestion && cardAnswer) {
-                    addCardToList(cardTitle, cardQuestion, cardAnswer)
-                }
-            })
-
-            function addCardToList(cardTitle, cardQuestion, cardAnswer) {
-                const cardTemplate = `
+<script>    
+    function addCardToList(cardTitle, cardQuestion, cardAnswer) {
+    const cardTemplate = `
         <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">${cardTitle}</h5>
-            <p class="card-text">${cardQuestion}</p>
-            <p class="card-text d-none">${cardAnswer}</p>
-            <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
-          </div>
+            <div class="card-body">
+                <h5 class="card-title">${cardTitle}</h5>
+                <p class="card-text">${cardQuestion}</p>
+                <p class="card-text d-none">${cardAnswer}</p>
+                <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
+            </div>
         </div>
-      `              
-                const cardList = document.getElementById('card-list')
-                cardList.insertAdjacentHTML('beforeend', cardTemplate)
-                // добавляем обработчик клика на карту
-                const cards = cardList.querySelectorAll('.card')
-                const lastCard = cards[cards.length - 1]
-                lastCard.addEventListener('click', function (event) {
-                    const targetElement = event.target
-                    if (targetElement.classList.contains('delete-card')) {
-                        const cardTitleElement =
-                            lastCard.querySelector('.card-title')
-                        const cardTitle = cardTitleElement.textContent.trim()
-                        let cardsData =
-                            JSON.parse(localStorage.getItem('cards')) || []
-                        cardsData = cardsData.filter(
-                            (cardData) => cardData.title != cardTitle
-                        )
-                        localStorage.setItem('cards', JSON.stringify(cardsData))
-                        lastCard.remove()
-                    } else {
-                        const cardTexts =
-                            lastCard.querySelectorAll('.card-text')
-                        cardTexts[0].classList.toggle('d-none')
-                        cardTexts[1].classList.toggle('d-none')
-                    }
-                })
-                // Очищаем форму кроме названия карты
-                const cardQuestionInput =
-                    document.getElementById('card-question')
-                cardQuestionInput.value = ''
-                const cardAnswerInput = document.getElementById('card-answer')
-                cardAnswerInput.value = ''
-                // обработчик отправки формы
-                const form = document.querySelector('form')
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault()
-                    const cardTitleInput = document.getElementById('card-title')
-                    const cardQuestionInput =
-                        document.getElementById('card-question')
-                    const cardAnswerInput =
-                        document.getElementById('card-answer')
-                    const cardTitle = cardTitleInput.value.trim()
-                    const cardQuestion = cardQuestionInput.value.trim()
-                    const cardAnswer = cardAnswerInput.value.trim()
-                    if (cardTitle && cardQuestion && cardAnswer) {
-                        addCardToList(cardTitle, cardQuestion, cardAnswer)
-                    }
-                })
-                // Отправляем данные о карточке в localStorage
-                let cardsData = JSON.parse(localStorage.getItem('cards')) || []
-                cardsData = cardsData.filter(
-                    (cardData) => cardData.title != cardTitle
-                )
-                cardsData.push({
-                    title: cardTitle,
-                    question: cardQuestion,
-                    answer: cardAnswer
-                })
-                localStorage.setItem('cards', JSON.stringify(cardsData))
-            }
-            window.addEventListener('load', function () {
-                let cardsData = JSON.parse(localStorage.getItem('cards')) || []
-                cardsData.forEach(function (cardData) {
-                    addCardToList(
-                        cardData.title,
-                        cardData.question,
-                        cardData.answer
-                    )
-                })
-            })
+    `;    
+    const cardList = document.getElementById('card-list');
+    cardList.insertAdjacentHTML('beforeend', cardTemplate);
+    // add click handler to the card
+    const cards = cardList.querySelectorAll('.card');
+    const lastCard = cards[cards.length - 1];
+    lastCard.addEventListener('click', function (event) {
+        const targetElement = event.target;
+        if (targetElement.classList.contains('delete-card')) {
+            const cardTitleElement = lastCard.querySelector('.card-title');
+            const cardTitle = cardTitleElement.textContent.trim();
+            let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
+            cardsData = cardsData.filter((cardData) => cardData.title != cardTitle);
+            localStorage.setItem('cards', JSON.stringify(cardsData));
+            lastCard.remove();
+        } else {
+            const cardTexts = lastCard.querySelectorAll('.card-text');
+            cardTexts[0].classList.toggle('d-none');
+            cardTexts[1].classList.toggle('d-none');
+        }
+    });
+    // Clear the form except for the card title
+    const cardQuestionInput = document.getElementById('card-question');
+    cardQuestionInput.value = '';
+    const cardAnswerInput = document.getElementById('card-answer');
+    cardAnswerInput.value = '';
+    // Store card data in localStorage
+    let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
+    cardsData = cardsData.filter((cardData) => cardData.title != cardTitle);
+    cardsData.push({ title: cardTitle, question: cardQuestion, answer: cardAnswer });
+    localStorage.setItem('cards', JSON.stringify(cardsData));
+}
+
+// form submission handler
+const form = document.querySelector('form');
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const cardTitleInput = document.getElementById('card-title');
+    const cardQuestionInput = document.getElementById('card-question');
+    const cardAnswerInput = document.getElementById('card-answer');
+    const cardTitle = cardTitleInput.value.trim();
+    const cardQuestion = cardQuestionInput.value.trim();
+    const cardAnswer = cardAnswerInput.value.trim();
+    if (cardTitle && cardQuestion && cardAnswer) {
+        addCardToList(cardTitle, cardQuestion, cardAnswer);
+    }
+})
+
+window.addEventListener('load', function () {
+    let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
+    cardsData.forEach(function (cardData) {
+        addCardToList(cardData.title, cardData.question, cardData.answer);
+    })
+})
+
+    //         function addCardToList(cardTitle, cardQuestion, cardAnswer) {
+    //             const cardTemplate = `
+    //         <div class="card mb-3">
+    // <div class="card-body">
+    // <h5 class="card-title">${cardTitle}</h5>
+    // <p class="card-text">${cardQuestion}</p>
+    // <p class="card-text d-none">${cardAnswer}</p>
+    // </div>
+    // </div>
+    // `
+    //             const cardList = document.getElementById('card-list')
+    //             cardList.insertAdjacentHTML('beforeend', cardTemplate)
+    //             // добавляем обработчик клика на карту
+    //             const cards = cardList.querySelectorAll('.card')
+    //             const lastCard = cards[cards.length - 1]
+    //             lastCard.addEventListener('click', function () {
+    //                 const cardTexts = lastCard.querySelectorAll('.card-text')
+    //                 cardTexts[0].classList.toggle('d-none')
+    //                 cardTexts[1].classList.toggle('d-none')
+    //             })
+    //             // Очищаем форму кроме названия карты
+    //             const cardQuestionInput =
+    //                 document.getElementById('card-question')
+    //             cardQuestionInput.value = ''
+    //             const cardAnswerInput = document.getElementById('card-answer')
+    //             cardAnswerInput.value = ''
+    //         }
+    //         // обработчик отправки формы
+    //         const form = document.querySelector('form')
+    //         form.addEventListener('submit', function (event) {
+    //             event.preventDefault()
+    //             const cardTitleInput = document.getElementById('card-title')
+    //             const cardQuestionInput =
+    //                 document.getElementById('card-question')
+    //             const cardAnswerInput = document.getElementById('card-answer')
+    //             const cardTitle = cardTitleInput.value.trim()
+    //             const cardQuestion = cardQuestionInput.value.trim()
+    //             const cardAnswer = cardAnswerInput.value.trim()
+    //             if (cardTitle && cardQuestion && cardAnswer) {
+    //                 addCardToList(cardTitle, cardQuestion, cardAnswer)
+    //             }
+    //         })
+
+    //         function addCardToList(cardTitle, cardQuestion, cardAnswer) {
+    //             const cardTemplate = `
+    //     <div class="card mb-3">
+    //       <div class="card-body">
+    //         <h5 class="card-title">${cardTitle}</h5>
+    //         <p class="card-text">${cardQuestion}</p>
+    //         <p class="card-text d-none">${cardAnswer}</p>
+    //         <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
+    //       </div>
+    //     </div>
+    //   `              
+    //             const cardList = document.getElementById('card-list')
+    //             cardList.insertAdjacentHTML('beforeend', cardTemplate)
+    //             // добавляем обработчик клика на карту
+    //             const cards = cardList.querySelectorAll('.card')
+    //             const lastCard = cards[cards.length - 1]
+    //             lastCard.addEventListener('click', function (event) {
+    //                 const targetElement = event.target
+    //                 if (targetElement.classList.contains('delete-card')) {
+    //                     const cardTitleElement =
+    //                         lastCard.querySelector('.card-title')
+    //                     const cardTitle = cardTitleElement.textContent.trim()
+    //                     let cardsData =
+    //                         JSON.parse(localStorage.getItem('cards')) || []
+    //                     cardsData = cardsData.filter(
+    //                         (cardData) => cardData.title != cardTitle
+    //                     )
+    //                     localStorage.setItem('cards', JSON.stringify(cardsData))
+    //                     lastCard.remove()
+    //                 } else {
+    //                     const cardTexts =
+    //                         lastCard.querySelectorAll('.card-text')
+    //                     cardTexts[0].classList.toggle('d-none')
+    //                     cardTexts[1].classList.toggle('d-none')
+    //                 }
+    //             })
+    //             // Очищаем форму кроме названия карты
+    //             const cardQuestionInput =
+    //                 document.getElementById('card-question')
+    //             cardQuestionInput.value = ''
+    //             const cardAnswerInput = document.getElementById('card-answer')
+    //             cardAnswerInput.value = ''
+    //             // обработчик отправки формы
+    //             const form = document.querySelector('form')
+    //             form.addEventListener('submit', function (event) {
+    //                 event.preventDefault()
+    //                 const cardTitleInput = document.getElementById('card-title')
+    //                 const cardQuestionInput =
+    //                     document.getElementById('card-question')
+    //                 const cardAnswerInput =
+    //                     document.getElementById('card-answer')
+    //                 const cardTitle = cardTitleInput.value.trim()
+    //                 const cardQuestion = cardQuestionInput.value.trim()
+    //                 const cardAnswer = cardAnswerInput.value.trim()
+    //                 if (cardTitle && cardQuestion && cardAnswer) {
+    //                     addCardToList(cardTitle, cardQuestion, cardAnswer)
+    //                 }
+    //             })
+    //             // Отправляем данные о карточке в localStorage
+    //             let cardsData = JSON.parse(localStorage.getItem('cards')) || []
+    //             cardsData = cardsData.filter(
+    //                 (cardData) => cardData.title != cardTitle
+    //             )
+    //             cardsData.push({
+    //                 title: cardTitle,
+    //                 question: cardQuestion,
+    //                 answer: cardAnswer
+    //             })
+    //             localStorage.setItem('cards', JSON.stringify(cardsData))
+    //         }
+    //         window.addEventListener('load', function () {
+    //             let cardsData = JSON.parse(localStorage.getItem('cards')) || []
+    //             cardsData.forEach(function (cardData) {
+    //                 addCardToList(
+    //                     cardData.title,
+    //                     cardData.question,
+    //                     cardData.answer
+    //                 )
+    //             })
+    //         })
         </script>
     </body>
 </html>
