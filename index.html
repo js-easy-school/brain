@@ -153,11 +153,8 @@
     const cardAnswerInput = document.getElementById('card-answer');
     cardAnswerInput.value = '';
     // Store card data in localStorage
-    // let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
-    // cardsData = cardsData.filter((cardData) => cardData.title != cardTitle);
-    // cardsData.push({ title: cardTitle, question: cardQuestion, answer: cardAnswer });
-    // localStorage.setItem('cards', JSON.stringify(cardsData));
     let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
+    cardsData = cardsData.filter((cardData) => cardData.title != cardTitle);
     cardsData.push({ title: cardTitle, question: cardQuestion, answer: cardAnswer });
     localStorage.setItem('cards', JSON.stringify(cardsData));
 }
