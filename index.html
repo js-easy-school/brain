@@ -9,9 +9,13 @@
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         />
+        <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+        
     </head>
     <body>
         <div class="container mt-3">
@@ -63,22 +67,64 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 
 <script>    
+    // function addCardToList(cardTitle, cardQuestion, cardAnswer) {
+    // const cardTemplate = `
+    //     <div class="card mb-3">
+    //         <div class="card-body">
+    //             <h5 class="card-title">${cardTitle}</h5>
+    //             <p class="card-text">${cardQuestion}</p>
+    //             <p class="card-text d-none">${cardAnswer}</p>
+    //             <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
+    //         </div>
+    //     </div>
+    // `;    
+
+    // function addCardToList(cardTitle, cardQuestion, cardAnswer) {
+    // const cardTemplate = `
+    //     <div class="card mb-3">
+    //         <div class="card-body">
+    //             <h5 class="card-title">${cardTitle}</h5>
+    //             <p class="card-text">${cardQuestion}</p>
+    //             <pre><code class="card-text language-js d-none">${cardAnswer}</code></pre>
+    //             <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
+    //         </div>
+    //     </div>
+    // `;
+    
+    // const cardList = document.getElementById('card-list');
+    // cardList.insertAdjacentHTML('beforeend', cardTemplate);
+
+
+      
+    // // add click handler to the card
+    // const cards = cardList.querySelectorAll('.card');
+    // const lastCard = cards[cards.length - 1];
+    // lastCard.addEventListener('click', function (event) {
     function addCardToList(cardTitle, cardQuestion, cardAnswer) {
+    let cardAnswerElement = '';
+    if (cardAnswer.startsWith('<') && cardAnswer.endsWith('>')) {  // Check if answer is a code snippet
+        cardAnswerElement = `<pre><code class="card-text language-js d-none">${cardAnswer}</code></pre>`;
+    } else {
+        cardAnswerElement = `<p class="card-text d-none">${cardAnswer}</p>`;
+    }
+
     const cardTemplate = `
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">${cardTitle}</h5>
                 <p class="card-text">${cardQuestion}</p>
-                <p class="card-text d-none">${cardAnswer}</p>
+                ${cardAnswerElement}
                 <button type="button" class="btn btn-danger btn-sm float-right delete-card">Удалить</button>
             </div>
         </div>
-    `;    
+    `;
+
     const cardList = document.getElementById('card-list');
     cardList.insertAdjacentHTML('beforeend', cardTemplate);
-    // add click handler to the card
+
     const cards = cardList.querySelectorAll('.card');
     const lastCard = cards[cards.length - 1];
+
     lastCard.addEventListener('click', function (event) {
         const targetElement = event.target;
         if (targetElement.classList.contains('delete-card')) {
@@ -94,14 +140,24 @@
             cardTexts[1].classList.toggle('d-none');
         }
     });
+    
+    // подсветка блока кода
+    const codeBlocks = lastCard.querySelectorAll('code');
+    for (const codeBlock of codeBlocks) {
+        hljs.highlightBlock(codeBlock);
+    }
+        
     // Clear the form except for the card title
     const cardQuestionInput = document.getElementById('card-question');
     cardQuestionInput.value = '';
     const cardAnswerInput = document.getElementById('card-answer');
     cardAnswerInput.value = '';
     // Store card data in localStorage
+    // let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
+    // cardsData = cardsData.filter((cardData) => cardData.title != cardTitle);
+    // cardsData.push({ title: cardTitle, question: cardQuestion, answer: cardAnswer });
+    // localStorage.setItem('cards', JSON.stringify(cardsData));
     let cardsData = JSON.parse(localStorage.getItem('cards')) || [];
-    cardsData = cardsData.filter((cardData) => cardData.title != cardTitle);
     cardsData.push({ title: cardTitle, question: cardQuestion, answer: cardAnswer });
     localStorage.setItem('cards', JSON.stringify(cardsData));
 }
