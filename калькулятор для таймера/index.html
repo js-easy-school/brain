@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Калькулятор времени - Онлайн инструмент для расчета времени между двумя датами</title>
+    <meta name="description" content="Наш калькулятор времени позволяет легко и быстро рассчитать разницу между двумя датами в минутах. Введите время начала и время окончания и получите результат.">
+    <meta name="keywords" content="калькулятор времени, расчет времени, разница между временем">
+  </head>
+    <style>
+      body {
+  background-color: #222;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+input[type="time"] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+#result {
+  margin-top: 16px;
+  font-size: 24px;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <h1>Калькулятор времени</h1>
+    <p>Введите время начала и времени окончания:</p>
+    <label for="start-time">Начальное время:</label>
+    <input type="time" id="start-time">
+    <br>
+    <label for="end-time">Конечное время:</label>
+    <input type="time" id="end-time">
+    <br>
+    <!-- Убираем кнопку расчета времени -->
+    <p id="result"></p>
+    <script>
+      // Получение необходимых элементов DOM
+      var startTimeInput = document.getElementById("start-time");
+      var endTimeInput = document.getElementById("end-time");
+      var resultOutput = document.getElementById("result");
+
+      // Функция для обновления результата
+      function updateResult() {
+        // Получение времени начала и времени конца введенного пользователем
+        var startTime = startTimeInput.value;
+        var endTime = endTimeInput.value;
+
+        // Конвертация времени в минуты
+        var startTimeMinutes = convertToMinutes(startTime);
+        var endTimeMinutes = convertToMinutes(endTime);
+
+        // Вычисление разницы между временами в минутах
+        var differenceInMinutes = endTimeMinutes - startTimeMinutes;
+
+        // Вывод результатов в пользовательский интерфейс
+        resultOutput.innerHTML = "Время между " + startTime + " и " + endTime + " составляет " + differenceInMinutes + " минут(ы).";
+      }
+
+      // Функция для конвертации времени формата "HH:MM" в минуты
+      function convertToMinutes(time) {
+        var timeArray = time.split(":");
+        var hours = parseInt(timeArray[0]);
+        var minutes = parseInt(timeArray[1]);
+        return hours * 60 + minutes;
+      }
+
+      // Добавляем обработчики событий change для полей ввода времени
+      startTimeInput.addEventListener("change", updateResult);
+      endTimeInput.addEventListener("change", updateResult);
+    </script>
+  </body>
+</html>
