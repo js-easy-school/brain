@@ -1,0 +1,70 @@
+{
+    "name": "hw2-app",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0",
+        "@types/jsdom": "^21.1.1",
+        "@types/react-router-dom": "^5.3.3",
+        "bootstrap": "^5.3.0",
+        "child_process": "^1.0.2",
+        "fs": "^0.0.1-security",
+        "jsdom": "^22.1.0",
+        "lodash": "^4.17.21",
+        "node-fetch": "^3.3.2",
+        "node-gyp": "^9.4.0",
+        "node-powershell": "^5.0.1",
+        "nodemon": "^3.0.1",
+        "prop-types": "^15.8.1",
+        "python": "^0.0.4",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^5.3.4",
+        "react-scripts": "5.0.1",
+        "require": "^2.4.20",
+        "web-vitals": "^2.1.4",
+        "xlsx": "^0.18.5"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "fromat": "npx prettier --write .",
+        "watch": "npx eslint-watch src"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^8.45.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-config-standard": "^17.1.0",
+        "eslint-config-standart": "^0.2.0",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-standard": "^5.0.0",
+        "eslint-watch": "^8.0.0",
+        "prettier": "^2.8.8"
+    }
+}
