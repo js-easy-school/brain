@@ -1,107 +1,139 @@
+/* Common styles */
+html {
+  font-size: 16px;
+}
+
 body {
-    font-family: sans-serif;
-    background-color: #222;
-    color: #fff;
+  font-family: sans-serif;
+  background-color: #222;
+  color: #fff;
+  margin: 0;
 }
 
 label,
 input {
-    display: block;
-    margin-bottom: 5px;
-    color: #ccc;
+  display: block;
+  margin-bottom: 5px;
+  color: #ccc;
 }
 
-input[type="text"] {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px;
-    font-size: 2em;
-    text-align: center;
-    background-color: #333;
-    color: #fff;
-    border: none;
+input[type="text"],
+input[type="number"],
+input[type="time"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 input[disabled] {
-    background-color: #555;
-    color: #888;
+  background-color: #555;
+  color: #888;
 }
 
-#addTimer {
-    margin-bottom: 10px;
-    font-size: 1.5em;
-    padding: 10px;
-    background-color: #0077cc;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+fieldset {
+  border-radius: 10px;
+  border: none;
+  background-color: #444;
+  padding: 0 10px 10px 10px;
+  margin: 10px;
+  box-sizing: border-box;
 }
 
-#addTimer:hover {
-    background-color: #0055aa;
+legend {
+  color: #ccc;
+}
+
+.deleteTimer {
+  background-color: #FF6F6F;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.deleteTimer:hover {
+  background-color: #FF5F5F;
 }
 
 .btn-style {
-  font-size: 23px;
+  font-size: 1em;
   background-color: #FF6F6F;
   padding: 10px 20px;
   color: white;
   border: none;
   border-radius: 5px;
-  margin-left: 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition: 0.2s background-color;
 }
 
 .btn-style:hover {
   background-color: #FF5F5F;
 }
 
-legend {
-    color: #ccc;
+/* Media queries */
+@media (min-width: 480px) {
+  html {
+    font-size: 18px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="time"] {
+    font-size: 18px;
+  }
 }
 
-fieldset {
-    border-radius: 10px;
-    border: none;
-    background-color: #444;
-    margin-bottom: 5px;
-    padding: 5px;
+@media (min-width: 768px) {
+  html {
+    font-size: 20px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="time"] {
+    font-size: 20px;
+  }
+
+  fieldset {
+    max-width: 500px;
+    margin: 10px auto;
+  }
 }
 
-.deleteTimer {
-    background-color: #FF6F6F;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-    margin-left: 10px;
+@media (min-width: 992px) {
+  html {
+    font-size: 22px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="time"] {
+    font-size: 22px;
+  }
+
+  fieldset {
+    max-width: 800px;
+    margin: 10px auto;
+  }
 }
 
-.deleteTimer:hover {
-    background-color: #FF5F5F;
-}
+@media (min-width: 1200px) {
+  html {
+    font-size: 24px;
+  }
 
-input[type="number"],
-input[type="time"] {
-    background-color: #555;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 1.2em;
-}
-
-input[type="time"]:disabled {
-    background-color: #555;
-    color: #888;
-}
-
-input[type="text"] {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 1.2em;
+  input[type="text"],
+  input[type="number"],
+  input[type="time"] {
+    font-size: 24px;
+  }
 }
