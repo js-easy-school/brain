@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video streaming</title>
+</head>
+<body>
+
+<!-- video element -->
+<video autoplay playsinline></video>
+
+<!-- canvas element for video rendering -->
+<canvas></canvas>
+
+<!-- textarea element for signaling data -->
+<textarea id="signalingData"></textarea>
+
+<!-- button for copying signaling data -->
+<button id="copyButton">Скопировать данные</button>
+
+<script>
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "user" } } })
+    .then(function(stream) {
+      var video = document.querySelector('video');
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.playsinline = true;
+
+      var canvas = document.querySelector('canvas');
+      var context = canvas.getContext('2d');
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      function draw() {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+
+      // send video stream to other devices
+      const peer = new SimplePeer({
+        initiator: location.hash === '#init',
+        trickle: false,
+        stream: stream
+      });
+
+      peer.on('signal', data => {
+        // fill signaling data textarea with the data
+        const signalingData = document.querySelector('#signalingData');
+        signalingData.value = JSON.stringify(data);
+      });
+
+      document.querySelector('#copyButton').addEventListener('click', event => {
+        event.preventDefault();
+        const signalingData = document.querySelector('#signalingData');
+        signalingData.select();
+        document.execCommand('copy');
+      });
+
+      peer.on('stream', stream => {
+        const otherVideo = document.createElement('video');
+        document.body.appendChild(otherVideo);
+        otherVideo.srcObject = stream;
+        otherVideo.autoplay = true;
+        otherVideo.playsinline = true;
+      });
+
+    })
+    .catch(function(err) {
+      console.log('Failed to get video stream: ' + err);
+    });
+</script>
+
+</body>
+</html>
