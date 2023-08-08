@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Вывод данных</title>
+</head>
+<body>
+	<h1>Данные пользователя</h1>
+	<textarea id="userData"></textarea>
+	
+	<h1>Данные передатчика</h1>
+	<textarea id="transmitterData"></textarea>
+
+	<h1>Данные получателя</h1>
+	<form>
+		<label for="otherData">JSON данные:</label>
+		<br />
+		<textarea id="otherData" name="otherData"></textarea>
+		<br />
+		<button type="submit">Отправить данные</button>
+	</form>
+
+	<h1>Видео поток</h1>
+	<video id="videoStream" autoplay playsinline></video>
+
+	<!-- Подключение библиотеки SimplePeer -->
+	<script src="https://cdn.jsdelivr.net/npm/simple-peer@9.1.1/dist/simplepeer.min.js"></script>
+
+	<script>
+		// Получение данных пользователя
+		const userData = navigator.userAgent;
+		document.getElementById("userData").value = userData;
+
+		// Создание элемента видео для вывода видеопотока
+		const videoStream = document.getElementById("videoStream");
+
+		// Получение видеопотока и отправка его на другие устройства
+		navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "user" } } })
+			.then(function(stream) {
+			    videoStream.srcObject = stream;
+
+			    const peer = new SimplePeer({
+			      initiator: location.hash === '#init',
+			      trickle: false,
+			      stream: stream
+			    });
+
+			    peer.on('signal', data => {
+			      const transmitterData = document.getElementById("transmitterData");
+			      transmitterData.value = JSON.stringify(data);
+			    });
+
+			    document.querySelector('form').addEventListener('submit', event => {
+			      event.preventDefault()
+			      const otherData = JSON.parse(document.querySelector('#otherData').value)
+			      peer.signal(otherData)
+			    })
+
+			    peer.on('stream', stream => {
+			      const video = document.createElement('video')
+			      document.body.appendChild(video)
+			      video.srcObject = stream
+			      video.play()
+			    })
+
+		  })
+		  .catch(function(err) {
+		    console.log('Ошибка при получении видео потока: ' + err);
+		  });
+	</script>
+</body>
+</html>
